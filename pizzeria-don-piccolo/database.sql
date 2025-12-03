@@ -1,4 +1,4 @@
-create database pizzeria_don_piccolo;
+create database if not exists pizzeria_don_piccolo;
 Use pizzeria_don_piccolo;
 
 create table Gestion_Clientes(
@@ -19,7 +19,8 @@ create table Gestion_Pizza(
 
 create table Ingredientes(
     Id_Ingredientes INT PRIMARY KEY NOT NULL,
-    Tipo_Ingredientes Varchar(80) NOT NULL
+    Tipo_Ingredientes Varchar(80) NOT NULL,
+    Costo_Ingredientes INT NOT NULL,
     FOREIGN KEY (Id_Gestion_Pizza) REFERENCES (Id_Gestion_Pizza)
 );
 
@@ -28,7 +29,7 @@ create table Gestion_Pedido(
     Fecha_Hora DATETIME,
     Pizzas_Solicitadas INT,
     Metodo_Pago Enum('Efectivo', 'Tarjeta', 'App'),
-    Estado Enum('Pendiente', 'En Preparacion', 'Entregado', 'Cancelado')
+    Estado Enum('Pendiente', 'En Preparacion', 'Entregado', 'Cancelado'),
     Total_Pedido Double NOT NULL
 );
 
