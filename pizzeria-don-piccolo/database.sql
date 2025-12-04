@@ -37,6 +37,7 @@ create table Ingrediente(
     Identificador_Ingrediente INT, -- El numero en lo cual se identificara el ingrediente EJEM: 1 - Peperoni, 2 - Aguacate, 3 - Lengua de Vaca
     Nombre_Ingrediente Varchar(80) NOT NULL, -- Este Atributo es Complementario para el Atributo anterior, para poder poner el nombre.
     Stock_Ingrediente INT, -- EL que define cuantos hay de este tipo de ingrediente.
+    Costo Double NOT NULL
 );
 
 -- Creacion de la tabla de los detalle de la pizza.
@@ -47,6 +48,14 @@ create table detalle_pizza (
     PRIMARY KEY (Id_Pizza, Id_Ingrediente), -- La llave primaria compuesta, esta permite que no se presente la misma tipa con el mismo Ingrediente.
     FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza), -- Relacion A la tabla Pizza
     FOREIGN KEY (Id_Ingrediente) REFERENCES Ingrediente(Id_Ingrediente) -- Relacion A la tabla Ingrediente
+);
+
+-- Creacion tabla Zona 
+
+create table Zona(
+    Id_Zona INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Zona Varchar(80) NOT NULL,
+    Distancia_Aproximada Double NOT NULL
 );
 
 -- Creacion de la tabla de Pedidos
@@ -88,10 +97,92 @@ create table Domicilios(
     FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente)
 );
 
--- Creacion tabla Zona 
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-create table Zona(
-    Id_Zona INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Zona Varchar(80) NOT NULL,
-    Distancia_Aproximada Double NOT NULL
-);
+-- Insertacion de Data
+
+-- Personas
+INSERT INTO Persona (Nombre, Telefono, Direccion, Correo) VALUES
+('Juan Perez', '555-1234', 'Calle Falsa 123', 'juan.perez@email.com'),
+('Maria Lopez', '555-5678', 'Av. Siempre Viva 742', 'maria.lopez@email.com'),
+('Carlos Gomez', '555-9012', 'Calle Luna 45', 'carlos.gomez@email.com'),
+('Ana Torres', '555-3456', 'Av. Sol 98', 'ana.torres@email.com'),
+('Luis Ramirez', '555-7890', 'Calle Estrella 12', 'luis.ramirez@email.com'),
+('Sofia Martinez', '555-2345', 'Av. Mar 77', 'sofia.martinez@email.com'),
+('Pedro Castillo', '555-6789', 'Calle Rio 55', 'pedro.castillo@email.com'),
+('Laura Fernandez', '555-0123', 'Av. Nube 33', 'laura.fernandez@email.com');
+
+-- Clientes
+INSERT INTO Cliente (Id_Persona) VALUES
+(1), (2), (3), (4);
+
+-- Repartidores
+INSERT INTO Repartidor (Id_Persona, Estado_Repartidor) VALUES
+(5, 'Disponible'),
+(6, 'Disponible'),
+(7, 'No Disponible'),
+(8, 'Disponible');
+
+-- Ingredientes
+INSERT INTO Ingrediente (Identificador_Ingrediente, Nombre_Ingrediente, Stock_Ingrediente, Costo) VALUES
+(1, 'Queso', 50, 5.0),
+(2, 'Jamón', 40, 6.0),
+(3, 'Pepperoni', 30, 7.0),
+(4, 'Champiñones', 25, 4.0),
+(5, 'Piña', 20, 3.5),
+(6, 'Aceitunas', 35, 4.5),
+(7, 'Cebolla', 40, 3.0),
+(8, 'Pimiento', 30, 3.5),
+(9, 'Otros', 40, 10.0);
+
+-- Pizzas
+INSERT INTO Pizza (Nombre_Pizza, Tamaño_Pizza, Tipo_Pizza) VALUES
+('Margarita', 'Mediano', 'Clasica'),
+('Hawaiana', 'Grande', 'Especial'),
+('Vegetariana', 'Mediano', 'Vegetariana'),
+('Pepperoni', 'Grande', 'Especial'),
+('Cuatro Quesos', 'Pequeño', 'Especial');
+
+-- Margarita
+INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
+(1,1),(1,7);
+
+-- Hawaiana
+INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
+(2,1),(2,2),(2,5);
+
+-- Vegetariana
+INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
+(3,1),(3,4),(3,6),(3,7),(3,8);
+
+-- Pepperoni
+INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
+(4,1),(4,3);
+
+-- Cuatro Quesos
+INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
+(5,1),(5,5),(5,6),(5,4); -- supondremos que 9,10,11 son otros quesos
+
+-- Zonas 
+INSERT INTO Zona (Nombre_Zona, Distancia_Aproximada) VALUES
+('Centro', 2.5),
+('Norte', 5.0),
+('Sur', 7.2),
+('Este', 4.8),
+('Oeste', 6.3);
+
+-- Pedidos
+INSERT INTO Pedidos (Fecha_Hora, Metodo_Pago, Estado, Id_Cliente, Id_Zona, Total_Pedido) VALUES
+('2025-12-03 12:00:00','Efectivo','Pendiente',1,1,15.0),
+('2025-12-03 12:15:00','Tarjeta','En Preparacion',2,2,22.0),
+('2025-12-03 12:30:00','App','Entregado',3,3,18.5),
+('2025-12-03 12:45:00','Efectivo','Pendiente',4,4,25.0),
+('2025-12-03 13:00:00','Tarjeta','Cancelado',1,5,20.0);
+
+-- Domicilios
+INSERT INTO Domicilios (Hora_Salida, Hora_Entrega, Costo_Envio, Id_Repartidor, Id_Pedido, Id_Cliente) VALUES
+('2025-12-03 12:05:00','2025-12-03 12:30:00',3.5,1,1,1),
+('2025-12-03 12:20:00','2025-12-03 12:50:00',4.0,2,2,2),
+('2025-12-03 12:35:00','2025-12-03 13:00:00',3.0,4,3,3),
+('2025-12-03 12:50:00','2025-12-03 13:20:00',4.5,1,4,4),
+('2025-12-03 13:05:00','2025-12-03 13:30:00',5.0,2,5,1);
