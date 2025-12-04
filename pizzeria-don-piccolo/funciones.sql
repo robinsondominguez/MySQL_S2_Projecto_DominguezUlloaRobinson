@@ -4,31 +4,27 @@
 
 Delimiter //
 
-Create Function TotalPedido (V_Precio_Base INT)
-Read SQL Data
-Deterministic
+Create Function CalcularPedido (V_Id_Pedido INT)
 returns Double
-
+Reads SQL Data
+Deterministic
 begin
 
-DECLARE V_Costo_Envio INT NOT NULL;
-DECLARE V_Subtotal_Pizza INT NOT NULL;
-DECLARE V_Total_Precio INT NOT NULL; 
+DECLARE V_Precio_Base Double default 0;
+DECLARE V_Costo_Envio Double default 0;
+DECLARE V_Total Double;
+DECLARE IVA Double default 0.19;
 
--- Obtener Precio Base de la pizza
-Select Precio_Base into V_Precio_Base From Gestion_Pizza;
 
--- Obtener Costo Envio del Domicilio
-Select Costo_Envio into V_Costo_Envio From Gestion_Domicilios;
+-- Función para calcular el total de un pedido (sumando precios de pizzas + costo de envío + IVA).
 
--- Creando Procedimiento Matimatico (Suma)
-Set V_Subtotal_Pizza = (V_Costo_Envio + V_Precio_Base);
+Select p.Total_Pedido, IfNull (d.Costo_Envio, 0) Into V_Precio_Base, V_Costo_Envio from Pedidos p
+Left Join Domicilios d ON p.Id_Pedidos = d.Id_Pedido Where p.Id_Pedidos = V_Id_Pedido;
 
--- Añadiendo El IVA
-Set V_Total_Precio = (V_Subtotal_Pizza * 1.19);
+Set V_Total = (V_Precio_Base + V_Costo_Envio) * (1 + IVA);
 
-returns V_Total_Precio
 
+Return V_Total;
 End //
 
 Delimiter ;

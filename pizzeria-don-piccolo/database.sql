@@ -28,6 +28,7 @@ create table Cliente(
 create table Pizza(
     Id_Pizza INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Pizza Varchar(80),
+    Precio_Base Double,
     Tamaño_Pizza Enum('Grande', 'Mediano', 'Pequeño'),  -- Solo 3 opciones disponibles (Tampoco que quieras comer un tamaño elefante verdad?)
     Tipo_Pizza Enum('Vegetariana', 'Especial', 'Clasica') -- Solo 3 opciones para todo tipo de Clientes
 );
@@ -101,88 +102,85 @@ create table Domicilios(
 
 -- Insertacion de Data
 
+
 -- Personas
 INSERT INTO Persona (Nombre, Telefono, Direccion, Correo) VALUES
-('Juan Perez', '555-1234', 'Calle Falsa 123', 'juan.perez@email.com'),
-('Maria Lopez', '555-5678', 'Av. Siempre Viva 742', 'maria.lopez@email.com'),
-('Carlos Gomez', '555-9012', 'Calle Luna 45', 'carlos.gomez@email.com'),
-('Ana Torres', '555-3456', 'Av. Sol 98', 'ana.torres@email.com'),
-('Luis Ramirez', '555-7890', 'Calle Estrella 12', 'luis.ramirez@email.com'),
-('Sofia Martinez', '555-2345', 'Av. Mar 77', 'sofia.martinez@email.com'),
-('Pedro Castillo', '555-6789', 'Calle Rio 55', 'pedro.castillo@email.com'),
-('Laura Fernandez', '555-0123', 'Av. Nube 33', 'laura.fernandez@email.com');
+('Juan Perez', '3001234567', 'Calle 10 #20-30', 'juan.perez@example.com'),     
+('Maria Lopez', '3002345678', 'Calle 11 #21-31', 'maria.lopez@example.com'),   
+('Carlos Gomez', '3003456789', 'Calle 12 #22-32', 'carlos.gomez@example.com'), 
+('Ana Torres', '3004567890', 'Calle 13 #23-33', 'ana.torres@example.com'),     
+('Luis Ramirez', '3005678901', 'Calle 14 #24-34', 'luis.ramirez@example.com'), 
+
+-- Repartidores
+
+('Sofia Martinez', '3101112233', 'Calle 15 #25-35', 'sofia.martinez@example.com'), 
+('Pedro Castillo', '3102223344', 'Calle 16 #26-36', 'pedro.castillo@example.com'), 
+('Laura Fernandez', '3103334455', 'Calle 17 #27-37', 'laura.fernandez@example.com'), 
+('Daniel Ruiz', '3104445566', 'Calle 18 #28-38', 'daniel.ruiz@example.com'),       
+('Carolina Silva', '3105556677', 'Calle 19 #29-39', 'carolina.silva@example.com');
+
 
 -- Clientes
 INSERT INTO Cliente (Id_Persona) VALUES
-(1), (2), (3), (4);
+(1),(2),(3),(4),(5);
 
 -- Repartidores
 INSERT INTO Repartidor (Id_Persona, Estado_Repartidor) VALUES
-(5, 'Disponible'),
 (6, 'Disponible'),
-(7, 'No Disponible'),
-(8, 'Disponible');
+(7, 'Disponible'),
+(8, 'No Disponible'),
+(9, 'No Disponible'),
+(10, 'Disponible');
 
 -- Ingredientes
 INSERT INTO Ingrediente (Identificador_Ingrediente, Nombre_Ingrediente, Stock_Ingrediente, Costo) VALUES
-(1, 'Queso', 50, 5.0),
-(2, 'Jamón', 40, 6.0),
-(3, 'Pepperoni', 30, 7.0),
-(4, 'Champiñones', 25, 4.0),
-(5, 'Piña', 20, 3.5),
-(6, 'Aceitunas', 35, 4.5),
-(7, 'Cebolla', 40, 3.0),
-(8, 'Pimiento', 30, 3.5),
-(9, 'Otros', 40, 10.0);
+(1, 'Pepperoni', 50, 6000),
+(2, 'Queso Mozzarella', 40, 5000),
+(3, 'Champiñones', 30, 4000),
+(4, 'Tocineta', 25, 7000),
+(5, 'Piña', 20, 3000);
 
 -- Pizzas
-INSERT INTO Pizza (Nombre_Pizza, Tamaño_Pizza, Tipo_Pizza) VALUES
-('Margarita', 'Mediano', 'Clasica'),
-('Hawaiana', 'Grande', 'Especial'),
-('Vegetariana', 'Mediano', 'Vegetariana'),
-('Pepperoni', 'Grande', 'Especial'),
-('Cuatro Quesos', 'Pequeño', 'Especial');
+INSERT INTO Pizza (Nombre_Pizza, Precio_Base, Tamaño_Pizza, Tipo_Pizza) VALUES
+('Hawaiana', 25000, 'Grande', 'Clasica'),
+('Pepperoni', 27000, 'Mediano', 'Especial'),
+('Vegetariana', 23000, 'Grande', 'Vegetariana'),
+('Mexicana', 30000, 'Pequeño', 'Especial'),
+('Cuatro Quesos', 28000, 'Grande', 'Clasica');
 
--- Margarita
-INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
-(1,1),(1,7);
+-- detalle Pizza
 
--- Hawaiana
 INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
-(2,1),(2,2),(2,5);
-
--- Vegetariana
-INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
-(3,1),(3,4),(3,6),(3,7),(3,8);
-
--- Pepperoni
-INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
-(4,1),(4,3);
-
--- Cuatro Quesos
-INSERT INTO detalle_pizza (Id_Pizza, Id_Ingrediente) VALUES
-(5,1),(5,5),(5,6),(5,4); -- supondremos que 9,10,11 son otros quesos
+(1,5),
+(1,2),
+(2,1),
+(2,2),
+(3,3),
+(3,2),
+(4,4),
+(4,1),
+(5,2),
+(5,4);
 
 -- Zonas 
 INSERT INTO Zona (Nombre_Zona, Distancia_Aproximada) VALUES
-('Centro', 2.5),
-('Norte', 5.0),
-('Sur', 7.2),
-('Este', 4.8),
-('Oeste', 6.3);
+('Norte', 5.2),
+('Sur', 8.7),
+('Centro', 2.1);
 
 -- Pedidos
 INSERT INTO Pedidos (Fecha_Hora, Metodo_Pago, Estado, Id_Cliente, Id_Zona, Total_Pedido) VALUES
-('2025-12-03 12:00:00','Efectivo','Pendiente',1,1,15.0),
-('2025-12-03 12:15:00','Tarjeta','En Preparacion',2,2,22.0),
-('2025-12-03 12:30:00','App','Entregado',3,3,18.5),
-('2025-12-03 12:45:00','Efectivo','Pendiente',4,4,25.0),
-('2025-12-03 13:00:00','Tarjeta','Cancelado',1,5,20.0);
+('2024-11-30 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-11-30 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
+('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
+('2024-11-30 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
+('2024-11-30 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000);
+
 
 -- Domicilios
 INSERT INTO Domicilios (Hora_Salida, Hora_Entrega, Costo_Envio, Id_Repartidor, Id_Pedido, Id_Cliente) VALUES
-('2025-12-03 12:05:00','2025-12-03 12:30:00',3.5,1,1,1),
-('2025-12-03 12:20:00','2025-12-03 12:50:00',4.0,2,2,2),
-('2025-12-03 12:35:00','2025-12-03 13:00:00',3.0,4,3,3),
-('2025-12-03 12:50:00','2025-12-03 13:20:00',4.5,1,4,4),
-('2025-12-03 13:05:00','2025-12-03 13:30:00',5.0,2,5,1);
+('2024-11-30 14:10:00', '2024-11-30 14:40:00', 5000, 1, 1, 1),
+('2024-11-30 15:20:00', '2024-11-30 15:50:00', 4500, 2, 2, 2),
+('2024-11-30 16:45:00', '2024-11-30 17:20:00', 6500, 3, 3, 3),
+('2024-11-30 17:25:00', '2024-11-30 17:55:00', 6000, 4, 4, 4),
+('2024-11-30 18:15:00', '2024-11-30 18:45:00', 5500, 5, 5, 5);
