@@ -29,6 +29,9 @@ End //
 
 Delimiter ;
 
+drop function TotalPedido;
+SELECT CalcularPedido(2);
+
 --Funcion Para Calcular las Ganancias Neta Diarias
 
 Delimiter //
@@ -60,4 +63,27 @@ End //
 
 Delimiter ;
 
+drop function GananciasNeta;
+SELECT GananciasNeta('2024-11-30') AS Ganancia;
+
 -- Procedimiento para cambiar automáticamente el estado del pedido a “entregado” cuando se registre la hora de entrega.
+
+DELIMITER //
+
+Create Procedure CambiarEstado(IN V_IdPedido INT)
+BEGIN
+
+Update Pedidos p
+Join Domicilios d ON p.Id_Pedidos = d.Id_Pedido
+Set p.Estado = 'Entregado'
+Where p.Id_Pedidos = V_IdPedido
+And d.Hora_Entrega IS NOT NULL;
+
+END //
+
+DELIMITER ;
+
+Call CambiarEstado(3);
+Drop Procedure CambiarEstado;
+
+Select * From Pedidos;
