@@ -78,7 +78,7 @@ create table detalle_Pedido (
     Id_Pedido INT NOT NULL,
     Id_Pizza INT NOT NULL,
     Cantidad INT NOT NULL DEFAULT 1,
-    Precio_Unitario DOUBLE NOT NULL,
+    Precio_Unitario DOUBLE NOT NULL Default 0,
     FOREIGN KEY (Id_Pedido) REFERENCES Pedidos(Id_Pedidos),
     FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza)
 );
