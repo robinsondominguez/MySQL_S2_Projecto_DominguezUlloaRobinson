@@ -33,19 +33,28 @@ Delimiter ;
 
 Delimiter //
 
-Create Function GananciasNeta (Ganancias INT)
-Read SQL Data
-Deterministic
+Create Function GananciasNeta (BusquedaFecha DATE)
 returns Double
+Reads SQL Data
+Deterministic
 
 begin
 
-DECLARE Id_Ventas INT NOT NULL;
-DECLARE V_Costo_Ingredientes INT;
+DECLARE V_Id_Ventas Double;
+DECLARE V_Costo_Ingredientes Double;
 
-Select Costo_Envio into V_Costo_Envio From Gestion_Domicilios where Id_Gestion_Domicilios = Id_Total_Pedido;
+-- Total de ventas
 
-Set SUM(V_Costo_Envio * 1.19)
+Select IfNull(SUM(dp.Cantidad * dp.Precio_Unitario), 0) Into V_Ventas from Pedidos p Join Detalle_Pedido dp ON p.Id_Pedidos = dp.Id_Pedido WHERE DATE(p.Fecha_Hora) = BusquedaFecha;
+
+-- Total de costos de ingredientes usados en pizzas vendidas
+Select IfNull(SUM(dp.Cantidad * i.Costo), 0) Into V_Costo_Ingredientes From Pedidos p
+Join Detalle_Pedido dp ON p.Id_Pedidos = dp.Id_Pedido
+Join detalle_pizza dpi ON dp.Id_Pizza = dpi.Id_Pizza
+Join Ingrediente i ON dpi.Id_Ingrediente = i.Id_Ingrediente
+Where DATE(p.Fecha_Hora) = BusquedaFecha;
+
+Return V_Id_Ventas - V_Costo_Ingredientes;
 
 End //
 

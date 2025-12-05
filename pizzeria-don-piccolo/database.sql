@@ -73,6 +73,16 @@ create table Pedidos(
     FOREIGN KEY (Id_Zona) REFERENCES Zona(Id_Zona) -- Relacion Con la tabla Zona
 );
 
+create table detalle_Pedido (
+    Id_Detalle INT PRIMARY KEY AUTO_INCREMENT,
+    Id_Pedido INT NOT NULL,
+    Id_Pizza INT NOT NULL,
+    Cantidad INT NOT NULL DEFAULT 1,
+    Precio_Unitario DOUBLE NOT NULL,
+    FOREIGN KEY (Id_Pedido) REFERENCES Pedidos(Id_Pedidos),
+    FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza)
+);
+
 -- Creacion de la tabla de los repartidores
 
 create table Repartidor(
@@ -175,6 +185,16 @@ INSERT INTO Pedidos (Fecha_Hora, Metodo_Pago, Estado, Id_Cliente, Id_Zona, Total
 ('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
 ('2024-11-30 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
 ('2024-11-30 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000);
+
+-- Detalle_Pedido
+
+INSERT INTO Detalle_Pedido (Id_Pedido, Id_Pizza, Cantidad, Precio_Unitario) VALUES
+(1, 1, 2, 25000), 
+(1, 3, 1, 20000),
+(2, 2, 1, 28000),
+(3, 4, 3, 15000),
+(4, 5, 2, 22000),
+(5, 1, 1, 25000);
 
 
 -- Domicilios
