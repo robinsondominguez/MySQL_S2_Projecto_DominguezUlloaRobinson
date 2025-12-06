@@ -108,6 +108,16 @@ create table Domicilios(
     FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente)
 );
 
+create table historial_precios (
+    Id_Historial INT AUTO_INCREMENT PRIMARY KEY,
+    Id_Pizza INT NOT NULL,
+    Precio_Anterior DOUBLE NOT NULL,
+    Precio_Nuevo DOUBLE NOT NULL,
+    Fecha_Cambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza)
+);
+
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 -- Insertacion de Data
