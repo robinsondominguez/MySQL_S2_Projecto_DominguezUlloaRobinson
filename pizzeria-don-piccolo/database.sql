@@ -47,6 +47,7 @@ create table Ingrediente(
     Identificador_Ingrediente INT, -- El numero en lo cual se identificara el ingrediente EJEM: 1 - Peperoni, 2 - Aguacate, 3 - Lengua de Vaca
     Nombre_Ingrediente Varchar(80) NOT NULL, -- Este Atributo es Complementario para el Atributo anterior, para poder poner el nombre.
     Stock_Ingrediente INT, -- EL que define cuantos hay de este tipo de ingrediente.
+    Alert_Stock INT,
     Costo Double NOT NULL
 );
 
@@ -58,6 +59,15 @@ create table detalle_pizza (
     PRIMARY KEY (Id_Pizza, Id_Ingrediente), -- La llave primaria compuesta, esta permite que no se presente la misma tipa con el mismo Ingrediente.
     FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza), -- Relacion A la tabla Pizza
     FOREIGN KEY (Id_Ingrediente) REFERENCES Ingrediente(Id_Ingrediente) -- Relacion A la tabla Ingrediente
+);
+
+-- Creacion de la tabla de los repartidores
+
+create table Repartidor(
+    Id_Repartidor INT PRIMARY KEY AUTO_INCREMENT,
+    Id_Persona INT NOT NULL, -- La persona que hizo el pedido
+    Estado_Repartidor Enum('Disponible', 'No Disponible') NOT NULL default 'Disponible', -- Unicamente 2 opciones disponibles del estado del conductor, predeterminamente estara en Disponible.
+    FOREIGN KEY (Id_Persona) REFERENCES Persona(Id_Persona) -- Relacion con la tabla Persona
 );
 
 -- Creacion de la tabla de Pedidos
@@ -74,15 +84,6 @@ create table Pedidos(
     FOREIGN KEY (Id_Cliente) REFERENCES Cliente(id_Cliente), -- Relacion con la tabla Cliente
     FOREIGN KEY (Id_Zona) REFERENCES Zona(Id_Zona), -- Relacion Con la tabla Zona
     FOREIGN KEY (Id_Repartidor) REFERENCES Repartidor(Id_Repartidor) -- Relacion a la tabla Repartidor
-);
-
--- Creacion de la tabla de los repartidores
-
-create table Repartidor(
-    Id_Repartidor INT PRIMARY KEY AUTO_INCREMENT,
-    Id_Persona INT NOT NULL, -- La persona que hizo el pedido
-    Estado_Repartidor Enum('Disponible', 'No Disponible') NOT NULL default 'Disponible', -- Unicamente 2 opciones disponibles del estado del conductor, predeterminamente estara en Disponible.
-    FOREIGN KEY (Id_Persona) REFERENCES Persona(Id_Persona) -- Relacion con la tabla Persona
 );
 
 create table detalle_Pedido (
@@ -156,12 +157,12 @@ INSERT INTO Repartidor (Id_Persona, Estado_Repartidor) VALUES
 (10, 'Disponible');
 
 -- Ingredientes
-INSERT INTO Ingrediente (Identificador_Ingrediente, Nombre_Ingrediente, Stock_Ingrediente, Costo) VALUES
-(1, 'Pepperoni', 50, 6000),
-(2, 'Queso Mozzarella', 40, 5000),
-(3, 'Champiñones', 30, 4000),
-(4, 'Tocineta', 25, 7000),
-(5, 'Piña', 20, 3000);
+INSERT INTO Ingrediente (Identificador_Ingrediente, Nombre_Ingrediente, Stock_Ingrediente, Alert_Stock, Costo) VALUES
+(1, 'Pepperoni', 50, 25, 6000),
+(2, 'Queso Mozzarella', 40, 15, 5000),
+(3, 'Champiñones', 30, 20, 4000),
+(4, 'Tocineta', 25, 10, 7000),
+(5, 'Piña', 20, 5, 3000);
 
 -- Pizzas
 INSERT INTO Pizza (Nombre_Pizza, Precio_Base, Tamaño_Pizza, Tipo_Pizza) VALUES
