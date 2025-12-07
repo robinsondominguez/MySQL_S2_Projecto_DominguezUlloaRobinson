@@ -26,7 +26,7 @@ Todos estos requisitos se tuvieron que establecer en la base de datos en el tipo
 
 ## Modelo Logico de la base de datos.
 
-
+![](https://github.com/robinsondominguez/MySQL_S2_Projecto_DominguezUlloaRobinson/blob/41b8c257161f68f42745e79ebf2667657036e1b3/ModeloEERMySQL.png)
 
 --------------------------------------------------------------------
 
