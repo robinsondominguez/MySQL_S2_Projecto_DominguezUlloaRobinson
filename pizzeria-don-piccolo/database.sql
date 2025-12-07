@@ -23,6 +23,15 @@ create table Cliente(
     FOREIGN KEY (Id_Persona) REFERENCES Persona(Id_Persona) 
 );
 
+-- Creacion tabla Zona 
+
+create table Zona(
+    Id_Zona INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Zona Varchar(80) NOT NULL,
+    Distancia_Aproximada Double NOT NULL
+);
+
+
 -- Creacion de la Tabla de Pizzas
 
 create table Pizza(
@@ -51,14 +60,6 @@ create table detalle_pizza (
     FOREIGN KEY (Id_Ingrediente) REFERENCES Ingrediente(Id_Ingrediente) -- Relacion A la tabla Ingrediente
 );
 
--- Creacion tabla Zona 
-
-create table Zona(
-    Id_Zona INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Zona Varchar(80) NOT NULL,
-    Distancia_Aproximada Double NOT NULL
-);
-
 -- Creacion de la tabla de Pedidos
 
 create table Pedidos(
@@ -67,10 +68,21 @@ create table Pedidos(
     Metodo_Pago Enum('Efectivo', 'Tarjeta', 'App'), -- Solo 3 opciones disponibles para realizar el pago
     Estado Enum('Pendiente', 'En Preparacion', 'Entregado', 'Cancelado'), -- Solo 3 opciones disponibles Que puede tener la pizza, para que no pongan (En crecimiento)
     Id_Cliente INT NOT NULL, -- El cliente que haya realizado el pedido
+    Id_Repartidor INT, -- Referencia a la tabla Repartidor
     Id_Zona INT, -- Zona de entrega que se asigno
     Total_Pedido Double NOT NULL, -- Total del pedido de la pizza con la zona destinada
     FOREIGN KEY (Id_Cliente) REFERENCES Cliente(id_Cliente), -- Relacion con la tabla Cliente
-    FOREIGN KEY (Id_Zona) REFERENCES Zona(Id_Zona) -- Relacion Con la tabla Zona
+    FOREIGN KEY (Id_Zona) REFERENCES Zona(Id_Zona), -- Relacion Con la tabla Zona
+    FOREIGN KEY (Id_Repartidor) REFERENCES Repartidor(Id_Repartidor) -- Relacion a la tabla Repartidor
+);
+
+-- Creacion de la tabla de los repartidores
+
+create table Repartidor(
+    Id_Repartidor INT PRIMARY KEY AUTO_INCREMENT,
+    Id_Persona INT NOT NULL, -- La persona que hizo el pedido
+    Estado_Repartidor Enum('Disponible', 'No Disponible') NOT NULL default 'Disponible', -- Unicamente 2 opciones disponibles del estado del conductor, predeterminamente estara en Disponible.
+    FOREIGN KEY (Id_Persona) REFERENCES Persona(Id_Persona) -- Relacion con la tabla Persona
 );
 
 create table detalle_Pedido (
@@ -81,15 +93,6 @@ create table detalle_Pedido (
     Precio_Unitario DOUBLE NOT NULL Default 0,
     FOREIGN KEY (Id_Pedido) REFERENCES Pedidos(Id_Pedidos),
     FOREIGN KEY (Id_Pizza) REFERENCES Pizza(Id_Pizza)
-);
-
--- Creacion de la tabla de los repartidores
-
-create table Repartidor(
-    Id_Repartidor INT PRIMARY KEY AUTO_INCREMENT,
-    Id_Persona INT NOT NULL, -- La persona que hizo el pedido
-    Estado_Repartidor Enum('Disponible', 'No Disponible') NOT NULL default 'Disponible', -- Unicamente 2 opciones disponibles del estado del conductor, predeterminamente estara en Disponible.
-    FOREIGN KEY (Id_Persona) REFERENCES Persona(Id_Persona) -- Relacion con la tabla Persona
 );
 
 -- Creacion de la tabla Domicilios
@@ -190,11 +193,38 @@ INSERT INTO Zona (Nombre_Zona, Distancia_Aproximada) VALUES
 
 -- Pedidos
 INSERT INTO Pedidos (Fecha_Hora, Metodo_Pago, Estado, Id_Cliente, Id_Zona, Total_Pedido) VALUES
-('2024-11-30 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
-('2024-11-30 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
+('2024-11-28 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-29 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
 ('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
-('2024-11-30 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
-('2024-11-30 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000);
+('2024-12-01 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
+('2024-12-02 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000),
+('2024-12-03 19:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-04 20:00:00', 'Tarjeta', 'Pendiente', 3, 2, 25000),
+('2024-12-05 21:00:00', 'App', 'Pendiente', 1, 2, 25000),
+('2024-11-28 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-29 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
+('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
+('2024-12-01 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
+('2024-12-02 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000),
+('2024-12-03 19:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-04 20:00:00', 'Tarjeta', 'Pendiente', 3, 2, 25000),
+('2024-12-05 21:00:00', 'App', 'Pendiente', 1, 2, 25000),
+('2024-11-28 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-29 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
+('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
+('2024-12-01 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
+('2024-12-02 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000),
+('2024-12-03 19:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-04 20:00:00', 'Tarjeta', 'Pendiente', 3, 2, 25000),
+('2024-12-05 21:00:00', 'App', 'Pendiente', 1, 2, 25000),
+('2024-11-28 14:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-29 15:00:00', 'Tarjeta', 'En Preparacion', 2, 3, 27000),
+('2024-11-30 16:30:00', 'App', 'Pendiente', 3, 2, 23000),
+('2024-12-01 17:15:00', 'Efectivo', 'Entregado', 4, 1, 30000),
+('2024-12-02 18:00:00', 'Tarjeta', 'Cancelado', 5, 3, 28000),
+('2024-12-03 19:00:00', 'Efectivo', 'Pendiente', 1, 1, 25000),
+('2024-12-04 20:00:00', 'Tarjeta', 'Pendiente', 3, 2, 25000),
+('2024-12-05 21:00:00', 'App', 'Pendiente', 1, 2, 25000);
 
 -- Detalle_Pedido
 
@@ -206,11 +236,13 @@ INSERT INTO Detalle_Pedido (Id_Pedido, Id_Pizza, Cantidad, Precio_Unitario) VALU
 (4, 5, 2, 22000),
 (5, 1, 1, 25000);
 
-
 -- Domicilios
 INSERT INTO Domicilios (Hora_Salida, Hora_Entrega, Costo_Envio, Id_Repartidor, Id_Pedido, Id_Cliente) VALUES
-('2024-11-30 14:10:00', '2024-11-30 14:40:00', 5000, 1, 1, 1),
-('2024-11-30 15:20:00', '2024-11-30 15:50:00', 4500, 2, 2, 2),
-('2024-11-30 16:45:00', '2024-11-30 17:20:00', 6500, 3, 3, 3),
-('2024-11-30 17:25:00', '2024-11-30 17:55:00', 6000, 4, 4, 4),
-('2024-11-30 18:15:00', '2024-11-30 18:45:00', 5500, 5, 5, 5);
+('2024-11-28 14:10:00', '2024-11-21 14:40:00', 5000, 1, 1, 1),
+('2024-11-29 15:20:00', '2024-11-22 15:50:00', 4500, 2, 2, 2),
+('2024-11-30 16:45:00', '2024-11-23 17:20:00', 6500, 3, 3, 3),
+('2024-11-30 17:25:00', '2024-11-24 17:55:00', 6000, 4, 4, 4),
+('2024-11-30 18:15:00', '2024-11-25 18:45:00', 5500, 2, 5, 5),
+('2024-11-30 18:15:00', '2024-11-25 18:45:00', 5500, 2, 1, 1),
+('2024-11-30 18:15:00', '2024-11-25 18:45:00', 5500, 3, 3, 1),
+('2024-11-30 18:15:00', '2024-11-25 18:45:00', 5500, 2, 4, 2);

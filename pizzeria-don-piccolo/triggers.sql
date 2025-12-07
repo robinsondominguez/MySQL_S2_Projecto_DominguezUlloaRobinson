@@ -59,3 +59,9 @@ UPDATE Pizza
 SET Precio_Base = 21500 
 WHERE Id_Pizza = 3;
 SELECT * FROM historial_precios;
+
+
+Select * From ( Select c.Id_Cliente, per.Nombre, COUNT(p.Id_Pedidos) AS Mas_Pedidos From Pedidos p 
+Join Cliente c ON p.Id_Cliente = c.Id_ClienteJoin Persona per ON c.Id_Persona = per.Id_Persona
+Where MONTH(p.Fecha_Hora) = 12 GROUP BY c.Id_Cliente, per.Nombre) AS HistorialPedidos
+Where HistorialPedidos.Mas_Pedidos > 5;
