@@ -19,8 +19,9 @@ Select * from Ingrediente;
 
 -- Segundo Trigger
 
-Delimiter //
-Create Trigger UpdateEstado
+DELIMITER //
+
+CREATE TRIGGER UpdateEstado
 AFTER UPDATE ON Domicilios
 FOR EACH ROW
 BEGIN
@@ -28,13 +29,24 @@ BEGIN
         UPDATE Repartidor
         SET Estado_Repartidor = 'Disponible'
         WHERE Id_Repartidor = NEW.Id_Repartidor;
+        END IF;
+        
+	IF OLD.Hora_Entrega IS NOT NULL AND NEW.Hora_Entrega IS NULL THEN
+        UPDATE Repartidor
+        SET Estado_Repartidor = 'No Disponible'
+        WHERE Id_Repartidor = NEW.Id_Repartidor;
     END IF;
-END//
+END //
+
 DELIMITER ;
 
-Update Domicilios
-SET Hora_Entrega = NOW()
-WHERE Id_Domicilios = 3;
+Select * From Domicilios;
+Select * From Repartidor;
+
+UPDATE Domicilios
+SET Hora_Entrega = NULL
+WHERE Id_Domicilios = 2;
+
 -- Tercer Trigger
 
 DELIMITER //
