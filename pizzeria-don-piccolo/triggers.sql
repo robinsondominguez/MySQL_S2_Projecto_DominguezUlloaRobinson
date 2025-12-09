@@ -15,6 +15,7 @@ DELIMITER ;
 
 INSERT INTO detalle_Pedido (Id_Pedido, Id_Pizza, Cantidad)
 VALUES (1, 2, 2);
+
 Select * from Ingrediente;
 
 -- Segundo Trigger
@@ -44,7 +45,8 @@ Select * From Domicilios;
 Select * From Repartidor;
 
 UPDATE Domicilios
-SET Hora_Entrega = NULL
+SET Hora_Entrega = NULL -- Para que se quite el pedido para que el repartidor este 'No disponible'
+SET Hora_Entrega = 'YY-MM-DD' -- Asignar Fecha a la Hora entrega para Hacer que el repartidor Este disponible.
 WHERE Id_Domicilios = 2;
 
 -- Tercer Trigger
@@ -71,9 +73,3 @@ UPDATE Pizza
 SET Precio_Base = 21500 
 WHERE Id_Pizza = 3;
 SELECT * FROM historial_precios;
-
-
-Select * From ( Select c.Id_Cliente, per.Nombre, COUNT(p.Id_Pedidos) AS Mas_Pedidos From Pedidos p 
-Join Cliente c ON p.Id_Cliente = c.Id_ClienteJoin Persona per ON c.Id_Persona = per.Id_Persona
-Where MONTH(p.Fecha_Hora) = 12 GROUP BY c.Id_Cliente, per.Nombre) AS HistorialPedidos
-Where HistorialPedidos.Mas_Pedidos > 5;

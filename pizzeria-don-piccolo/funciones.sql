@@ -18,8 +18,9 @@ DECLARE IVA Double default 0.19;
 
 -- Función para calcular el total de un pedido (sumando precios de pizzas + costo de envío + IVA).
 
-Select p.Total_Pedido, IfNull (d.Costo_Envio, 0) Into V_Precio_Base, V_Costo_Envio from Pedidos p
-Left Join Domicilios d ON p.Id_Pedidos = d.Id_Pedido Where p.Id_Pedidos = V_Id_Pedido;
+Select p.Total_Pedido, IfNull (MAX(d.Costo_Envio), 0) Into V_Precio_Base, V_Costo_Envio from Pedidos p
+Left Join Domicilios d ON p.Id_Pedidos = d.Id_Pedido Where p.Id_Pedidos = V_Id_Pedido
+Group by p.Id_pedidos;
 
 Set V_Total = (V_Precio_Base + V_Costo_Envio) * (1 + IVA);
 
@@ -27,10 +28,11 @@ Set V_Total = (V_Precio_Base + V_Costo_Envio) * (1 + IVA);
 Return V_Total;
 End //
 
+
 Delimiter ;
 
-drop function TotalPedido;
-SELECT CalcularPedido(2);
+drop function CalcularPedido;
+SELECT CalcularPedido(1);
 
 --Funcion Para Calcular las Ganancias Neta Diarias
 
