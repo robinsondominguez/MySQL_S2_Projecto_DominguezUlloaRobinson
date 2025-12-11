@@ -50,9 +50,6 @@ create table detalle_Pedido (
 
 -- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
 
-INSERT INTO Cliente (Id_Persona) VALUES
-(1),(2),(3),(4),(5);
-
 -- Personas
 INSERT INTO Persona (Nombre) VALUES
 ('Juan Perez'),     
@@ -60,6 +57,9 @@ INSERT INTO Persona (Nombre) VALUES
 ('Carlos Gomez'), 
 ('Ana Torres'),     
 ('Luis Ramirez'); 
+
+INSERT INTO Cliente (Id_Persona) VALUES
+(1),(2),(3),(4),(5);
 
 INSERT INTO Pedidos (Fecha_Pedido, Metodo_Pago, Estado, Id_Cliente, Total_Pedido) VALUES
 ('2024-11-28 14:00:00', 'Efectivo', 'Pendiente', 1, 25000),

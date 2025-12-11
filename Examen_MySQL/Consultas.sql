@@ -18,3 +18,13 @@ Select (p.Metodo_Pago, p.Total_Pedido COUNT(p.Id_Pedido) AS Cantidad_Pedidos fro
 Join Pedidos p ON p.Id_Pedido = p.Id_Pedido
 Where Metodo_Pago = 'Efectivo'
 GROUP BY p.Id_Pedido, p.Total_Pedido) AS Met_pago Where Met_pago = 'Efectivo';
+
+-- El script que tenia que ser.
+
+-- SELECT 
+--     pe.Metodo_Pago,
+--     COUNT(pe.Id_Pedidos) AS Total_Pedidos,
+--    SUM(pe.Total_Pedido) AS Total_Generado
+-- FROM Pedidos pe
+-- WHERE pe.Metodo_Pago = 'Efectivo'
+-- GROUP BY pe.Metodo_Pago;
